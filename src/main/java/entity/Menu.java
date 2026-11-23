@@ -9,14 +9,15 @@ package entity;
  * @author Faris M Rabbani
  */
 public class Menu {
-    private int id, hargaJual;
+    private int id;
     private String nama, kategori, status;
+    private double hargaJual;
 
     public Menu(){
 
     }
 
-    public Menu(int id, int hargaJual, String nama, String kategori, String status){
+    public Menu(int id, double hargaJual, String nama, String kategori, String status){
         this.id = id;
         this.hargaJual = hargaJual;
         this.nama = nama;
@@ -32,11 +33,11 @@ public class Menu {
         this.id = id;
     }
 
-    public int getHargaJual() {
+    public double getHargaJual() {
         return hargaJual;
     }
 
-    public void setHargaJual(int hargaJual) {
+    public void setHargaJual(double hargaJual) {
         this.hargaJual = hargaJual;
     }
 
