@@ -41,6 +41,39 @@ public class OrderRepository {
         return list;
     }
 
+    public List<OrderModel> getOrdersLaporan(int idLaporan) {
+        List<OrderModel> list = new ArrayList<>();
+
+        String query = "SELECT o.*, SUM(d.harga_satuan * d.kuantitas) AS total_pesanan FROM orders o " +
+                    "LEFT JOIN detail_order d ON d.id_order = o.id WHERE o.status = 'Selesai' && o.id_laporan = ? GROUP BY o.id";
+
+        try (Connection conn = DatabaseUtil.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setInt(1, idLaporan);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    OrderModel order = new OrderModel(
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getInt("nomor_antrean"),
+                        rs.getString("jenis_order"),
+                        rs.getObject("tanggal_transaksi", LocalDateTime.class),
+                        rs.getDouble("total_pesanan")
+                    );
+
+                    list.add(order);
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
     public void addOrder(int nomorAntrean, String jenisOrder) {
 
         String query = "INSERT INTO orders " +

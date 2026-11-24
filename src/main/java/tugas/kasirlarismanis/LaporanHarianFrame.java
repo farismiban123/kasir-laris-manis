@@ -7,6 +7,8 @@ package tugas.kasirlarismanis;
 import entity.LaporanHarian;
 import java.util.List;
 import javax.swing.JFrame;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import repository.LaporanHarianRepository;
 
@@ -20,12 +22,28 @@ public class LaporanHarianFrame extends javax.swing.JFrame {
 
     private final LaporanHarianRepository laporanHarianRepo = new LaporanHarianRepository();
     
+    private int selectedId = 0;
+    
     /**
      * Creates new form LaporanHarianFrame
      */
     public LaporanHarianFrame() {
         initComponents();
         loadLaporanHarianTable();
+        
+        tableLaporanHarian.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent event) {
+                if (!event.getValueIsAdjusting()) {
+                    int selectedRow = tableLaporanHarian.getSelectedRow();
+
+                    if (selectedRow != -1) {
+                        selectedId = (int) tableLaporanHarian.getValueAt(selectedRow, 0);
+                        fieldSelected.setText(String.valueOf(tableLaporanHarian.getValueAt(selectedRow, 1)));
+                    }
+                }
+            }
+        });
     }
     
     private void loadLaporanHarianTable(){
@@ -50,7 +68,7 @@ public class LaporanHarianFrame extends javax.swing.JFrame {
         tableLaporanHarian = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
+        fieldSelected = new javax.swing.JTextField();
         btnKembali = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -71,8 +89,9 @@ public class LaporanHarianFrame extends javax.swing.JFrame {
         jLabel1.setText("Pilihan Laporan:");
 
         jButton1.setText("Lihat Daftar Order");
+        jButton1.addActionListener(this::jButton1ActionPerformed);
 
-        jTextField1.setEditable(false);
+        fieldSelected.setEditable(false);
 
         btnKembali.setText("Kembali");
         btnKembali.addActionListener(this::btnKembaliActionPerformed);
@@ -88,11 +107,11 @@ public class LaporanHarianFrame extends javax.swing.JFrame {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(fieldSelected, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(20, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -105,7 +124,7 @@ public class LaporanHarianFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(fieldSelected, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton1)
                 .addContainerGap())
@@ -120,6 +139,13 @@ public class LaporanHarianFrame extends javax.swing.JFrame {
         orderHistoryFrame.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnKembaliActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        JFrame orderHistoryFrame = new DetailLaporanFrame(selectedId);
+        orderHistoryFrame.setLocationRelativeTo(null);
+        orderHistoryFrame.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -148,10 +174,10 @@ public class LaporanHarianFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnKembali;
+    private javax.swing.JTextField fieldSelected;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTable tableLaporanHarian;
     // End of variables declaration//GEN-END:variables
 }
