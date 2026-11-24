@@ -190,12 +190,13 @@ public class AntreanFrame extends javax.swing.JFrame {
         String kategori = (String) fieldKategori.getSelectedItem();
         String name = fieldName.getText();
         if(name.isEmpty()){
-            orderRepo.addOrder(1, kategori);
+            orderRepo.addOrder(kategori);
         }
         else{
-            orderRepo.addOrder(1, name, kategori);
+            orderRepo.addOrder(name, kategori);
         }
         
+        fieldName.setText("");
         loadOrdersTable();
     }//GEN-LAST:event_btnBuatBaruActionPerformed
 

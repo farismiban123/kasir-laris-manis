@@ -86,6 +86,7 @@ public class MenuFrame extends javax.swing.JFrame {
         fieldStatus = new javax.swing.JComboBox<>();
         btnLiatResep = new javax.swing.JButton();
         btnKembali = new javax.swing.JButton();
+        btnDaftarBahanBaku = new javax.swing.JButton();
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -150,6 +151,9 @@ public class MenuFrame extends javax.swing.JFrame {
         btnKembali.setText("Kembali");
         btnKembali.addActionListener(this::btnKembaliActionPerformed);
 
+        btnDaftarBahanBaku.setText("Daftar Bahan Baku");
+        btnDaftarBahanBaku.addActionListener(this::btnDaftarBahanBakuActionPerformed);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -184,6 +188,8 @@ public class MenuFrame extends javax.swing.JFrame {
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                             .addComponent(jLabel1)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnDaftarBahanBaku)
+                            .addGap(18, 18, 18)
                             .addComponent(btnKembali))
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(16, Short.MAX_VALUE))
@@ -194,7 +200,8 @@ public class MenuFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(btnKembali))
+                    .addComponent(btnKembali)
+                    .addComponent(btnDaftarBahanBaku))
                 .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
@@ -307,6 +314,13 @@ public class MenuFrame extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnKembaliActionPerformed
 
+    private void btnDaftarBahanBakuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDaftarBahanBakuActionPerformed
+        JFrame orderHistoryFrame = new BahanBakuFrame();
+        orderHistoryFrame.setLocationRelativeTo(null);
+        orderHistoryFrame.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnDaftarBahanBakuActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -336,6 +350,7 @@ public class MenuFrame extends javax.swing.JFrame {
     private javax.swing.JButton BtnEdit;
     private javax.swing.JButton BtnHapus;
     private javax.swing.JButton BtnSimpan;
+    private javax.swing.JButton btnDaftarBahanBaku;
     private javax.swing.JButton btnKembali;
     private javax.swing.JButton btnLiatResep;
     private javax.swing.JTextField fieldHarga;

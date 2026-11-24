@@ -100,7 +100,7 @@ public class MenuRepository {
     }
 
     public void updateMenu(int id, String nama, double hargaJual, String kategori, String status){
-        String query = "UPDATE menu SET nama = ?, harga_jual = ?, kategori = ?, status = ? " +
+        String query = "UPDATE menu SET name = ?, harga_jual = ?, kategori = ?, status = ? " +
                        "WHERE id = ?";
         try (Connection conn = DatabaseUtil.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(query)){

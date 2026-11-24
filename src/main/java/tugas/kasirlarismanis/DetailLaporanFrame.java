@@ -158,7 +158,7 @@ public class DetailLaporanFrame extends javax.swing.JFrame {
         orderHistoryFrame.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnLihatDetailActionPerformed
-
+    
     private void btnKembaliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKembaliActionPerformed
         JFrame orderHistoryFrame = new LaporanHarianFrame();
         orderHistoryFrame.setLocationRelativeTo(null);

@@ -74,7 +74,7 @@ public class OrderRepository {
         return list;
     }
 
-    public void addOrder(int nomorAntrean, String jenisOrder) {
+    public void addOrder(String jenisOrder) {
 
         String query = "INSERT INTO orders " +
                        "(nomor_antrean, jenis_order) " +
@@ -83,6 +83,7 @@ public class OrderRepository {
         try (Connection conn = DatabaseUtil.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(query)) {
 
+            int nomorAntrean = getNomorAntrean(conn);
             pstmt.setInt(1, nomorAntrean);
             pstmt.setString(2, jenisOrder);
 
@@ -93,7 +94,7 @@ public class OrderRepository {
         }
     }
 
-    public void addOrder(int nomorAntrean, String name, String jenisOrder) {
+    public void addOrder(String name, String jenisOrder) {
 
         String query = "INSERT INTO orders " +
                        "(nomor_antrean, name, jenis_order) " +
@@ -102,6 +103,7 @@ public class OrderRepository {
         try (Connection conn = DatabaseUtil.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(query)) {
 
+            int nomorAntrean = getNomorAntrean(conn);
             pstmt.setInt(1, nomorAntrean);
             pstmt.setString(2, name);
             pstmt.setString(3, jenisOrder);
@@ -114,25 +116,39 @@ public class OrderRepository {
     }
 
     public void deleteOrder(int id) {
+        String restoreStock = "UPDATE bahan_baku bb " +
+                            "JOIN ( " +
+                            "    SELECT r.id_bahan_baku, SUM(r.kebutuhan * d.kuantitas) AS total " +
+                            "    FROM detail_order d " +
+                            "    JOIN resep_menu r ON r.id_menu = d.id_menu " +
+                            "    WHERE d.id_order = ? " +
+                            "    GROUP BY r.id_bahan_baku " +
+                            ") x ON bb.id = x.id_bahan_baku " +
+                            "SET bb.stok_tersedia = bb.stok_tersedia + x.total";
 
         String deleteDetail = "DELETE FROM detail_order WHERE id_order = ?";
         String deleteOrder = "DELETE FROM orders WHERE id = ?";
 
         try (Connection conn = DatabaseUtil.getConnection()) {
-
             conn.setAutoCommit(false);
 
             try {
-                // Hapus detail order terlebih dahulu
-                try (PreparedStatement pstmt = conn.prepareStatement(deleteDetail)) {
-                    pstmt.setInt(1, id);
-                    pstmt.executeUpdate();
+                // 1. Kembalikan stok seluruh bahan baku
+                try (PreparedStatement ps = conn.prepareStatement(restoreStock)) {
+                    ps.setInt(1, id);
+                    ps.executeUpdate();
                 }
 
-                // Hapus data order
-                try (PreparedStatement pstmt = conn.prepareStatement(deleteOrder)) {
-                    pstmt.setInt(1, id);
-                    pstmt.executeUpdate();
+                // 2. Hapus seluruh detail order
+                try (PreparedStatement ps = conn.prepareStatement(deleteDetail)) {
+                    ps.setInt(1, id);
+                    ps.executeUpdate();
+                }
+
+                // 3. Hapus order
+                try (PreparedStatement ps = conn.prepareStatement(deleteOrder)) {
+                    ps.setInt(1, id);
+                    ps.executeUpdate();
                 }
 
                 conn.commit();
@@ -209,5 +225,17 @@ public class OrderRepository {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public int getNomorAntrean(Connection conn) throws SQLException {
+        String query = "SELECT COALESCE(MAX(nomor_antrean), 0) + 1 AS nomor_baru FROM orders WHERE DATE(tanggal_transaksi) = CURDATE()";
+
+        try (PreparedStatement ps = conn.prepareStatement(query); ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt("nomor_baru");
+            }
+        }
+
+        return 1;
     }
 }
