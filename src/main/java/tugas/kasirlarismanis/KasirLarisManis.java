@@ -11,6 +11,6 @@ package tugas.kasirlarismanis;
 public class KasirLarisManis {
 
     public static void main(String[] args) {
-        java.awt.EventQueue.invokeLater(() -> new AntreanForm().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new AntreanFrame().setVisible(true));
     }
 }

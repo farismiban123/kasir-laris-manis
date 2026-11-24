@@ -7,10 +7,13 @@ package tugas.kasirlarismanis;
 import model.MenuModel;
 import java.util.List;
 import javax.swing.JFrame;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 import repository.MenuRepository;
 import repository.DetailOrderRepository;
+import repository.OrderRepository;
 import model.DetailOrderModel;
 
 /**
@@ -23,7 +26,11 @@ public class DetailOrderFrame extends javax.swing.JFrame {
 
     private final MenuRepository menuRepo = new MenuRepository();
     private final DetailOrderRepository detailOrderRepo = new DetailOrderRepository();
+    private final OrderRepository orderRepo = new OrderRepository();
     private int selectedOrderId;
+    private int selectedMenuId = 0;
+    private int selectedOrderDetailId = 0;
+    private double hargaSelectedMenu;
     
     /**
      * Creates new form DetailOrderFrame
@@ -34,6 +41,38 @@ public class DetailOrderFrame extends javax.swing.JFrame {
         this.selectedOrderId = selectedOrderId;
         loadMenuTable();
         loadDetailOrderTable(selectedOrderId);
+        
+        tableMenu.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent event) {
+                if (!event.getValueIsAdjusting()) {
+                    int selectedRow = tableMenu.getSelectedRow();
+
+                    if (selectedRow != -1) {
+                        selectedMenuId = (int) tableMenu.getValueAt(selectedRow, 0);
+                        fieldSelectedMenu.setText(String.valueOf(tableMenu.getValueAt(selectedRow, 1)));
+                        hargaSelectedMenu = (double) tableMenu.getValueAt(selectedRow, 3);
+                    }
+                }
+            }
+        });
+        
+        tableDetailOrder.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent event) {
+                if (!event.getValueIsAdjusting()) {
+                    int selectedRow = tableDetailOrder.getSelectedRow();
+
+                    if (selectedRow != -1) {
+                        selectedOrderDetailId = (int) tableDetailOrder.getValueAt(selectedRow, 0);
+                        fieldSelectedDetailOrder.setText(String.valueOf(tableDetailOrder.getValueAt(selectedRow, 1)));
+                        fieldKuantitas.setText(String.valueOf(tableDetailOrder.getValueAt(selectedRow, 2)));
+                        fieldCatatan.setText(String.valueOf(tableDetailOrder.getValueAt(selectedRow, 3)));
+                        
+                    }
+                }
+            }
+        });
     }
     
     private void loadMenuTable(){
@@ -50,7 +89,7 @@ public class DetailOrderFrame extends javax.swing.JFrame {
         model.setRowCount(0);
         List<DetailOrderModel> detailOrder = detailOrderRepo.getDetailOrderItems(orderId);
         for(DetailOrderModel d : detailOrder){
-            model.addRow(new Object[]{d.getId(), d.getNama(), d.getKuantitas(), d.getHargaSatuan(), d.getHargaTotal()});
+            model.addRow(new Object[]{d.getId(), d.getNama(), d.getKuantitas(), d.getCatatan(), d.getHargaSatuan(), d.getHargaTotal()});
         }
     }
 
@@ -70,6 +109,24 @@ public class DetailOrderFrame extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         btnKembali = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        fieldSelectedOrder = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        fieldSelectedMenu = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        btnTambah = new javax.swing.JButton();
+        fieldCatatan = new javax.swing.JTextField();
+        fieldKuantitas = new javax.swing.JTextField();
+        btnEdit = new javax.swing.JButton();
+        btnHapus = new javax.swing.JButton();
+        fieldSelectedDetailOrder = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        fieldMetodeBayar = new javax.swing.JComboBox<>();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -88,13 +145,13 @@ public class DetailOrderFrame extends javax.swing.JFrame {
 
         tableDetailOrder.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "Nama Menu", "Kuantitas", "Harga Satuan", "Harga Total"
+                "ID", "Nama Menu", "Kuantitas", "Catatan", "Harga Satuan", "Harga Total"
             }
         ));
         jScrollPane2.setViewportView(tableDetailOrder);
@@ -106,6 +163,47 @@ public class DetailOrderFrame extends javax.swing.JFrame {
         btnKembali.setText("Kembali");
         btnKembali.addActionListener(this::btnKembaliActionPerformed);
 
+        jLabel3.setText("ID Pesanan:");
+
+        fieldSelectedOrder.setEditable(false);
+        fieldSelectedOrder.addActionListener(this::fieldSelectedOrderActionPerformed);
+
+        jLabel4.setText("Pilihan Menu:");
+
+        fieldSelectedMenu.setEditable(false);
+
+        jLabel5.setText("Kuantitas:");
+
+        jLabel6.setText("Catatan:");
+
+        btnTambah.setText("Tambah Ke Order");
+        btnTambah.addActionListener(this::btnTambahActionPerformed);
+
+        fieldCatatan.addActionListener(this::fieldCatatanActionPerformed);
+
+        fieldKuantitas.addActionListener(this::fieldKuantitasActionPerformed);
+
+        btnEdit.setText("Edit Order");
+        btnEdit.addActionListener(this::btnEditActionPerformed);
+
+        btnHapus.setText("Cancel Pesanan");
+        btnHapus.addActionListener(this::btnHapusActionPerformed);
+
+        fieldSelectedDetailOrder.setEditable(false);
+
+        jLabel7.setText("Pilihan Item:");
+
+        jLabel8.setText("Total Pesanan:");
+
+        jTextField1.setEditable(false);
+
+        jLabel9.setText("Metode Pembayaran:");
+
+        fieldMetodeBayar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "QRIS", "Cash", "Transfer" }));
+
+        jButton1.setText("Selesaikan Pesanan");
+        jButton1.addActionListener(this::jButton1ActionPerformed);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -113,24 +211,76 @@ public class DetailOrderFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnKembali)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(18, 18, 18)
+                        .addComponent(fieldSelectedOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnKembali))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel1))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnTambah)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addGap(18, 18, 18)
+                                .addComponent(fieldCatatan, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addGap(37, 37, 37)
+                                .addComponent(fieldKuantitas))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addGap(18, 18, 18)
+                                .addComponent(fieldSelectedMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel7)
+                        .addGap(18, 18, 18)
+                        .addComponent(fieldSelectedDetailOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(136, 136, 136)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel9)
+                                    .addComponent(jLabel8))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTextField1)
+                                    .addComponent(fieldMetodeBayar, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(84, 84, 84)
+                .addComponent(btnHapus)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnKembali)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(btnKembali)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(fieldSelectedOrder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING))
@@ -138,18 +288,116 @@ public class DetailOrderFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(105, 105, 105))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(fieldSelectedMenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7)
+                    .addComponent(fieldSelectedDetailOrder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(fieldKuantitas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9)
+                    .addComponent(fieldMetodeBayar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(12, 12, 12)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(fieldCatatan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1))
+                .addGap(92, 92, 92)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnTambah)
+                    .addComponent(btnEdit))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnHapus)
+                .addGap(8, 8, 8))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnKembaliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKembaliActionPerformed
-        JFrame orderHistoryFrame = new AntreanForm();
+        JFrame orderHistoryFrame = new AntreanFrame();
         orderHistoryFrame.setLocationRelativeTo(null);
         orderHistoryFrame.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnKembaliActionPerformed
+
+    private void fieldSelectedOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fieldSelectedOrderActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fieldSelectedOrderActionPerformed
+
+    private void fieldCatatanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fieldCatatanActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fieldCatatanActionPerformed
+
+    private void fieldKuantitasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fieldKuantitasActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fieldKuantitasActionPerformed
+
+    private void btnTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahActionPerformed
+        String catatan = fieldCatatan.getText();
+        if(catatan.isEmpty()){
+            catatan = "";
+        }
+        
+        try{
+            int kuantitas = Integer.parseInt(fieldKuantitas.getText());
+
+            detailOrderRepo.addDetailOrder(selectedOrderId, selectedMenuId, catatan, kuantitas, hargaSelectedMenu);
+            loadDetailOrderTable(selectedOrderId);
+            
+            fieldKuantitas.setText("");
+            fieldCatatan.setText("");
+        }catch (NumberFormatException e) {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                    "Input harga harus berupa angka!",
+                    "Validasi Error",
+                    javax.swing.JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnTambahActionPerformed
+
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+        String catatan = fieldCatatan.getText();
+        if(catatan.isEmpty()){
+            catatan = "";
+        }
+
+        try{
+            int kuantitas = Integer.parseInt(fieldKuantitas.getText());
+
+            detailOrderRepo.updateDetailOrder(selectedOrderDetailId, catatan, kuantitas);
+            loadDetailOrderTable(selectedOrderId);
+
+            fieldKuantitas.setText("");
+            fieldCatatan.setText("");
+        }catch (NumberFormatException e) {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                    "Input harga harus berupa angka!",
+                    "Validasi Error",
+                    javax.swing.JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnEditActionPerformed
+
+    private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed
+        detailOrderRepo.deleteDetailOrder(selectedOrderDetailId);
+        loadDetailOrderTable(selectedOrderId);
+    }//GEN-LAST:event_btnHapusActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        String metodeBayar = (String) fieldMetodeBayar.getSelectedItem();
+        boolean selesaiOrder = orderRepo.selesaikanOrder(selectedOrderId, metodeBayar);
+        
+        if(selesaiOrder){
+            JFrame orderHistoryFrame = new AntreanFrame();
+            orderHistoryFrame.setLocationRelativeTo(null);
+            orderHistoryFrame.setVisible(true);
+            this.dispose();
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -177,11 +425,29 @@ public class DetailOrderFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnEdit;
+    private javax.swing.JButton btnHapus;
     private javax.swing.JButton btnKembali;
+    private javax.swing.JButton btnTambah;
+    private javax.swing.JTextField fieldCatatan;
+    private javax.swing.JTextField fieldKuantitas;
+    private javax.swing.JComboBox<String> fieldMetodeBayar;
+    private javax.swing.JTextField fieldSelectedDetailOrder;
+    private javax.swing.JTextField fieldSelectedMenu;
+    private javax.swing.JTextField fieldSelectedOrder;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextField jTextField1;
     private javax.swing.JTable tableDetailOrder;
     private javax.swing.JTable tableMenu;
     // End of variables declaration//GEN-END:variables

@@ -1,4 +1,5 @@
 C:\Users\Faris M Rabbani\Documents\Kuliah\Semester_3\Praktikum\pbo\classmoji\kasir-laris-manis\src\main\java\entity\BahanBaku.java
+C:\Users\Faris M Rabbani\Documents\Kuliah\Semester_3\Praktikum\pbo\classmoji\kasir-laris-manis\src\main\java\entity\LaporanHarian.java
 C:\Users\Faris M Rabbani\Documents\Kuliah\Semester_3\Praktikum\pbo\classmoji\kasir-laris-manis\src\main\java\entity\Menu.java
 C:\Users\Faris M Rabbani\Documents\Kuliah\Semester_3\Praktikum\pbo\classmoji\kasir-laris-manis\src\main\java\entity\Order.java
 C:\Users\Faris M Rabbani\Documents\Kuliah\Semester_3\Praktikum\pbo\classmoji\kasir-laris-manis\src\main\java\entity\Resep.java
@@ -9,12 +10,14 @@ C:\Users\Faris M Rabbani\Documents\Kuliah\Semester_3\Praktikum\pbo\classmoji\kas
 C:\Users\Faris M Rabbani\Documents\Kuliah\Semester_3\Praktikum\pbo\classmoji\kasir-laris-manis\src\main\java\repository\BahanBakuRepository.java
 C:\Users\Faris M Rabbani\Documents\Kuliah\Semester_3\Praktikum\pbo\classmoji\kasir-laris-manis\src\main\java\repository\DatabaseUtil.java
 C:\Users\Faris M Rabbani\Documents\Kuliah\Semester_3\Praktikum\pbo\classmoji\kasir-laris-manis\src\main\java\repository\DetailOrderRepository.java
+C:\Users\Faris M Rabbani\Documents\Kuliah\Semester_3\Praktikum\pbo\classmoji\kasir-laris-manis\src\main\java\repository\LaporanHarianRepository.java
 C:\Users\Faris M Rabbani\Documents\Kuliah\Semester_3\Praktikum\pbo\classmoji\kasir-laris-manis\src\main\java\repository\MenuRepository.java
 C:\Users\Faris M Rabbani\Documents\Kuliah\Semester_3\Praktikum\pbo\classmoji\kasir-laris-manis\src\main\java\repository\OrderRepository.java
 C:\Users\Faris M Rabbani\Documents\Kuliah\Semester_3\Praktikum\pbo\classmoji\kasir-laris-manis\src\main\java\repository\ResepRepository.java
-C:\Users\Faris M Rabbani\Documents\Kuliah\Semester_3\Praktikum\pbo\classmoji\kasir-laris-manis\src\main\java\tugas\kasirlarismanis\AntreanForm.java
+C:\Users\Faris M Rabbani\Documents\Kuliah\Semester_3\Praktikum\pbo\classmoji\kasir-laris-manis\src\main\java\tugas\kasirlarismanis\AntreanFrame.java
 C:\Users\Faris M Rabbani\Documents\Kuliah\Semester_3\Praktikum\pbo\classmoji\kasir-laris-manis\src\main\java\tugas\kasirlarismanis\BahanBakuFrame.java
 C:\Users\Faris M Rabbani\Documents\Kuliah\Semester_3\Praktikum\pbo\classmoji\kasir-laris-manis\src\main\java\tugas\kasirlarismanis\DetailOrderFrame.java
 C:\Users\Faris M Rabbani\Documents\Kuliah\Semester_3\Praktikum\pbo\classmoji\kasir-laris-manis\src\main\java\tugas\kasirlarismanis\KasirLarisManis.java
+C:\Users\Faris M Rabbani\Documents\Kuliah\Semester_3\Praktikum\pbo\classmoji\kasir-laris-manis\src\main\java\tugas\kasirlarismanis\LaporanHarianFrame.java
 C:\Users\Faris M Rabbani\Documents\Kuliah\Semester_3\Praktikum\pbo\classmoji\kasir-laris-manis\src\main\java\tugas\kasirlarismanis\MenuFrame.java
 C:\Users\Faris M Rabbani\Documents\Kuliah\Semester_3\Praktikum\pbo\classmoji\kasir-laris-manis\src\main\java\tugas\kasirlarismanis\ResepFrame.java

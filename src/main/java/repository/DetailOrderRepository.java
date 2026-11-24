@@ -49,4 +49,56 @@ public class DetailOrderRepository {
 
         return list;
     }
+
+    public void addDetailOrder(int idOrder, int idMenu, String catatan, int kuantitas, double hargaSatuan) {
+        String query = "INSERT INTO detail_order (id_order, id_menu, catatan, kuantitas, harga_satuan) " +
+                    "VALUES (?, ?, ?, ?, ?)";
+
+        try (Connection conn = DatabaseUtil.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setInt(1, idOrder);
+            pstmt.setInt(2, idMenu);
+            pstmt.setString(3, catatan);
+            pstmt.setInt(4, kuantitas);
+            pstmt.setDouble(5, hargaSatuan);
+
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteDetailOrder(int id) {
+        String query = "DELETE FROM detail_order WHERE id = ?";
+
+        try (Connection conn = DatabaseUtil.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setInt(1, id);
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateDetailOrder(int id, String catatan, int kuantitas) {
+        String query = "UPDATE detail_order SET catatan = ?, kuantitas = ? " +
+                    "WHERE id = ?";
+
+        try (Connection conn = DatabaseUtil.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, catatan);
+            pstmt.setInt(2, kuantitas);
+            pstmt.setInt(3, id);
+
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

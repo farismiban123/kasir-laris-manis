@@ -85,6 +85,7 @@ public class MenuFrame extends javax.swing.JFrame {
         fieldKategori = new javax.swing.JComboBox<>();
         fieldStatus = new javax.swing.JComboBox<>();
         btnLiatResep = new javax.swing.JButton();
+        btnKembali = new javax.swing.JButton();
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -146,6 +147,9 @@ public class MenuFrame extends javax.swing.JFrame {
         btnLiatResep.setText("Lihat Resep");
         btnLiatResep.addActionListener(this::btnLiatResepActionPerformed);
 
+        btnKembali.setText("Kembali");
+        btnKembali.addActionListener(this::btnKembaliActionPerformed);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -165,8 +169,6 @@ public class MenuFrame extends javax.swing.JFrame {
                             .addComponent(fieldStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(fieldKategori, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(fieldName, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jLabel1)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel6)
                         .addGap(18, 18, 18)
@@ -177,15 +179,23 @@ public class MenuFrame extends javax.swing.JFrame {
                         .addComponent(BtnEdit)
                         .addGap(18, 18, 18)
                         .addComponent(BtnHapus))
-                    .addComponent(btnLiatResep))
+                    .addComponent(btnLiatResep)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addComponent(jLabel1)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnKembali))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(16, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addGap(33, 33, 33)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(btnKembali))
+                .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(fieldSelected, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -209,7 +219,7 @@ public class MenuFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(fieldStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(BtnEdit)
                     .addComponent(BtnSimpan)
@@ -290,6 +300,13 @@ public class MenuFrame extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnLiatResepActionPerformed
 
+    private void btnKembaliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKembaliActionPerformed
+        JFrame orderHistoryFrame = new AntreanFrame();
+        orderHistoryFrame.setLocationRelativeTo(null);
+        orderHistoryFrame.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnKembaliActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -319,6 +336,7 @@ public class MenuFrame extends javax.swing.JFrame {
     private javax.swing.JButton BtnEdit;
     private javax.swing.JButton BtnHapus;
     private javax.swing.JButton BtnSimpan;
+    private javax.swing.JButton btnKembali;
     private javax.swing.JButton btnLiatResep;
     private javax.swing.JTextField fieldHarga;
     private javax.swing.JComboBox<String> fieldKategori;

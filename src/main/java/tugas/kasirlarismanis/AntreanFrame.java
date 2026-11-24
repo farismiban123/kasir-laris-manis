@@ -16,9 +16,9 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Faris M Rabbani
  */
-public class AntreanForm extends javax.swing.JFrame {
+public class AntreanFrame extends javax.swing.JFrame {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(AntreanForm.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(AntreanFrame.class.getName());
 
     private final OrderRepository orderRepo = new OrderRepository();
     
@@ -27,7 +27,7 @@ public class AntreanForm extends javax.swing.JFrame {
     /**
      * Creates new form AntreanCheckoutForm
      */
-    public AntreanForm() {
+    public AntreanFrame() {
         initComponents();
         loadOrdersTable();
         
@@ -74,6 +74,8 @@ public class AntreanForm extends javax.swing.JFrame {
         fieldKategori = new javax.swing.JComboBox<>();
         jLabel8 = new javax.swing.JLabel();
         btnLihatDetail = new javax.swing.JButton();
+        btnLihatMenu = new javax.swing.JButton();
+        btnLihatLaporan = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -106,6 +108,12 @@ public class AntreanForm extends javax.swing.JFrame {
         btnLihatDetail.setText("Lihat Detail Pesanan");
         btnLihatDetail.addActionListener(this::btnLihatDetailActionPerformed);
 
+        btnLihatMenu.setText("Lihat Menu");
+        btnLihatMenu.addActionListener(this::btnLihatMenuActionPerformed);
+
+        btnLihatLaporan.setText("Lihat Laporan Harian");
+        btnLihatLaporan.addActionListener(this::btnLihatLaporanActionPerformed);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -119,21 +127,27 @@ public class AntreanForm extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel7)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(fieldSelected, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(fieldSelected, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnLihatMenu)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnLihatLaporan))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                        .addComponent(jLabel3)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(fieldKategori, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel8)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(fieldName, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(btnBuatBaru, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(35, 35, 35)
-                                .addComponent(btnLihatDetail, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                    .addComponent(jLabel3)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(fieldKategori, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLabel8)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(fieldName, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnLihatDetail, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(13, 13, 13)))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -142,7 +156,9 @@ public class AntreanForm extends javax.swing.JFrame {
                 .addGap(7, 7, 7)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(fieldSelected, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(fieldSelected, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnLihatMenu)
+                    .addComponent(btnLihatLaporan))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(16, 16, 16)
@@ -157,7 +173,7 @@ public class AntreanForm extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnBuatBaru)
                     .addComponent(btnLihatDetail))
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         pack();
@@ -183,6 +199,20 @@ public class AntreanForm extends javax.swing.JFrame {
         loadOrdersTable();
     }//GEN-LAST:event_btnBuatBaruActionPerformed
 
+    private void btnLihatMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLihatMenuActionPerformed
+        JFrame orderHistoryFrame = new MenuFrame();
+        orderHistoryFrame.setLocationRelativeTo(null);
+        orderHistoryFrame.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnLihatMenuActionPerformed
+
+    private void btnLihatLaporanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLihatLaporanActionPerformed
+        JFrame orderHistoryFrame = new LaporanHarianFrame();
+        orderHistoryFrame.setLocationRelativeTo(null);
+        orderHistoryFrame.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnLihatLaporanActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -205,12 +235,14 @@ public class AntreanForm extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new AntreanForm().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new AntreanFrame().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuatBaru;
     private javax.swing.JButton btnLihatDetail;
+    private javax.swing.JButton btnLihatLaporan;
+    private javax.swing.JButton btnLihatMenu;
     private javax.swing.JComboBox<String> fieldKategori;
     private javax.swing.JTextField fieldName;
     private javax.swing.JTextField fieldSelected;
